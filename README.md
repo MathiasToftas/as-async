@@ -53,6 +53,26 @@ specify loop and or executor
     asyncio.run(main())
 ```
 
+equivalents to the above without the decorator also exists
+
+ ```python
+    import time
+    import asyncio
+    from concurrent.futures import ThreadPoolExecutor
+
+    def long_running_function():
+        time.sleep(5)
+        return "Finished"
+
+
+    async def main():
+        async_func = to_async(long_running_function)
+        result = await async_func()
+        print(result)
+
+    asyncio.run(main())
+```
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
