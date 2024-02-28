@@ -2,14 +2,14 @@ import time
 
 import pytest
 
-from unblock import unblock, unblock_generator
+from as_async import as_async, as_async_generator
 
 
 @pytest.mark.asyncio
-async def test_unblock():
+async def test_as_async():
     tmp = []
 
-    @unblock()
+    @as_async()
     def buz():
         """my cool function that blocks the event loop for 0.1 seconds."""
         time.sleep(0.1)
@@ -23,10 +23,10 @@ async def test_unblock():
 
 
 @pytest.mark.asyncio
-async def test_unblock_generator():
+async def test_as_async_generator():
     tmp = []
 
-    @unblock_generator()
+    @as_async_generator()
     def buz():
         """my cool generator that blocks the event loop for 0.1 seconds.
 

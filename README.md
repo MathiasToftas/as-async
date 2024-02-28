@@ -1,11 +1,11 @@
-# Unblock
+# as-async
 
 Small python library to unblock sync functions and generators
 
 ## Installation
 
 ```sh
-    pip install unblock
+    pip install as-async
 ```
 
 ## Examples
@@ -17,9 +17,9 @@ basic usage
     import asyncio
     from concurrent.futures import ThreadPoolExecutor
 
-    from unblock import unblock
+    from as_async import as_async
 
-    @unblock()
+    @as_async()
     def long_running_function():
         time.sleep(5)
         return "Finished"
@@ -38,9 +38,9 @@ specify loop and or executor
     import asyncio
     from concurrent.futures import ThreadPoolExecutor
 
-    from unblock import unblock_generator
+    from as_async import as_async_generator
 
-    @unblock_generator(loop=asyncio.get_event_loop(), executor=ThreadPoolExecutor(max_workers=5))
+    @as_async_generator(loop=asyncio.get_event_loop(), executor=ThreadPoolExecutor(max_workers=5))
     def long_running_generator():
         for i in range(5):
             time.sleep(1)  # Simulate a long-running operation

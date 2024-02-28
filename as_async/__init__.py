@@ -4,11 +4,11 @@ from concurrent.futures import Executor
 from typing import Any, AsyncGenerator, Callable, Coroutine, Generator, cast
 
 
-def unblock[**P, T](
+def as_async[**P, T](
     loop: asyncio.AbstractEventLoop | None = None, executor: Executor | None = None
 ) -> Callable[[Callable[P, T]], Callable[P, Coroutine[None, None, T]]]:
     """
-    The `unblock` decorator is used to run a synchronous function in a separate thread,
+    The `as_async` decorator is used to run a synchronous function in a separate thread,
     effectively making it non-blocking. This is useful when you have a CPU-bound or I/O-bound
     function that you don't want to block the event loop, and which would be difficult to
     reimplement as async.
@@ -25,7 +25,7 @@ def unblock[**P, T](
     import asyncio
     from concurrent.futures import ThreadPoolExecutor
 
-    @unblock(loop=asyncio.get_event_loop(), executor=ThreadPoolExecutor(max_workers=5))
+    @as_async(loop=asyncio.get_event_loop(), executor=ThreadPoolExecutor(max_workers=5))
     def long_running_function():
         time.sleep(5)
         return "Finished"
@@ -51,13 +51,13 @@ def unblock[**P, T](
     return decorator
 
 
-def unblock_generator[**P, T](
+def as_async_generator[**P, T](
     loop: asyncio.AbstractEventLoop | None = None, executor: Executor | None = None
 ) -> Callable[
     [Callable[P, Generator[T, Any, None]]], Callable[P, AsyncGenerator[T, Any]]
 ]:
     """
-    The `unblock_generator` decorator is used to run a synchronous generator in a separate thread,
+    The `as_async_generator` decorator is used to run a synchronous generator in a separate thread,
     effectively making it non-blocking. This is useful when you have a CPU-bound or I/O-bound
     generator that you don't want to block the event loop, and which would be difficult to
     reimplement as async.
@@ -74,7 +74,7 @@ def unblock_generator[**P, T](
     import asyncio
     from concurrent.futures import ThreadPoolExecutor
 
-    @unblock_generator(loop=asyncio.get_event_loop(), executor=ThreadPoolExecutor(max_workers=5))
+    @as_async_generator(loop=asyncio.get_event_loop(), executor=ThreadPoolExecutor(max_workers=5))
     def long_running_generator():
         for i in range(5):
             time.sleep(1)  # Simulate a long-running operation
